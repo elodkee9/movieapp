@@ -41,17 +41,20 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String user = email.getText().toString().trim();
-                String pwd = password.getText().toString().trim();
-                boolean res = db.checkUser(user, pwd);
+                String eemail = email.getText().toString();
+                String pwd = password.getText().toString();
+                Boolean checkLoginUser = db.checkLogin(eemail,pwd);
 
-                if (res == true) {
-                    Toast.makeText(LoginActivity.this, "Login successfully!", Toast.LENGTH_LONG).show();
-                    Intent homeIntent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(homeIntent);
+                if(eemail.equals("")||pwd.equals("")){
+                    Toast.makeText(getApplicationContext(),"Fields are empty!", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    Toast.makeText(LoginActivity.this, "Login error!", Toast.LENGTH_LONG).show();
+                    if (checkLoginUser == true) {
+                        Toast.makeText(getApplicationContext(), "Login successfully!", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "Wrong email or password!", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

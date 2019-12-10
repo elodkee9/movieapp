@@ -46,21 +46,34 @@ public class RegisterActivity extends AppCompatActivity {
         registerButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String fullName = name.getText().toString().trim();
-                String a = age.getText().toString().trim();
-                String eemail = email.getText().toString().trim();
-                String pwd1 = password1.getText().toString().trim();
-                String pwd2 = password2.getText().toString().trim();
+                String fullName = name.getText().toString();
+                String a = age.getText().toString();
+                String eemail = email.getText().toString();
+                String pwd1 = password1.getText().toString();
+                String pwd2 = password2.getText().toString();
 
-                if(pwd1.equals(pwd2)) {
-                    db.addUser(fullName, a, eemail,pwd1);
-                    Toast.makeText(RegisterActivity.this, "You have registered successfully!", Toast.LENGTH_SHORT).show();
-                    Intent moveToLogin = new Intent(RegisterActivity.this, LoginActivity.class);
-                    startActivity(moveToLogin);
+                if(fullName.equals("")||a.equals("")||eemail.equals("")||pwd1.equals("")||pwd2.equals("")){
+                    Toast.makeText(getApplicationContext(),"Fields are empty!", Toast.LENGTH_SHORT).show();
                 }
-                else {
-                    Toast.makeText(RegisterActivity.this, "Password is not matching!", Toast.LENGTH_SHORT).show();
+                else{
+                    if(pwd1.equals(pwd2)){
+                        Boolean checkemail = db.checkEmail(eemail);
+                        if(checkemail==true){
+                            Boolean insert = db.addUser(fullName, a, eemail, pwd1);
+                            if(insert==true){
+                                Toast.makeText(getApplicationContext(), "Successfully registered!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(),"Email is already exists!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(),"Password not matching", Toast.LENGTH_SHORT).show();
+
+                    }
                 }
+
             }
         });
     }
