@@ -51,6 +51,8 @@ public class LoginActivity extends AppCompatActivity {
                 else {
                     if (checkLoginUser == true) {
                         Toast.makeText(getApplicationContext(), "Login successfully!", Toast.LENGTH_SHORT).show();
+                        Intent homeIntent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(homeIntent);
                     }
                     else{
                         Toast.makeText(getApplicationContext(), "Wrong email or password!", Toast.LENGTH_SHORT).show();
