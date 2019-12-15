@@ -23,6 +23,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, 1);
     }
 
+
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE registeruser (ID INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, age INTEGER, email TEXT, password TEXT)");
@@ -72,5 +73,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         else
             return false;
+    }
+
+    public Cursor getAllData(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor res = db.rawQuery("select * from "+TABLE_NAME, null);
+        return res;
+    }
+
+    public void updatePassword(String email, String password){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_5, password);
+
+        db.update(TABLE_NAME, contentValues, COL_4+" = ?", new String[]{email});
+        db.close();
     }
 }

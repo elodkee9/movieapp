@@ -84,12 +84,6 @@
         android:text="Register"
         android:textColor="@android:color/black" />
 
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginTop="20dp">
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="35dp"
@@ -101,12 +95,7 @@
             android:layout_height="35dp"
             android:paddingLeft="5dp"
             android:text="LOGIN HERE"
-            android:textStyle="bold"
-            />
-
-
-
-
+            android:textStyle="bold" />
 
 
 </LinearLayout>

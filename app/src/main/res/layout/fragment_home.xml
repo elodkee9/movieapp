@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tool="http://schemas.android.com/tools"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tool:context="com.example.movieapp.MainActivity"
+    tool:showIn="@layout/activity_main"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:background="@color/viewBG">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Home page"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="8dp"
-        android:layout_marginLeft="8dp"/>
+        android:clipToPadding="false"
+        android:scrollbars="vertical"/>
 
-</LinearLayout>
+
+</RelativeLayout>
