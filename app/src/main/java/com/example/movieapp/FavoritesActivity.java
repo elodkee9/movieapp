@@ -9,12 +9,12 @@ import android.view.MenuItem;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class HomeActivity extends AppCompatActivity {
+public class FavoritesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_favorites);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
@@ -23,15 +23,15 @@ public class HomeActivity extends AppCompatActivity {
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch(item.getItemId()){
                     case R.id.nav_home:
-                        Intent intent1 = new Intent(HomeActivity.this, MainActivity.class);
+                        Intent intent1 = new Intent(FavoritesActivity.this, MainActivity.class);
                         startActivity(intent1);
                         break;
                     case R.id.nav_fav:
-                        Intent intent2 = new Intent(HomeActivity.this, FavoritesActivity.class);
+                        Intent intent2 = new Intent(FavoritesActivity.this, FavoritesActivity.class);
                         startActivity(intent2);
                         break;
                     case R.id.nav_profile:
-                        Intent intent3 = new Intent(HomeActivity.this, ProfileActivity.class);
+                        Intent intent3 = new Intent(FavoritesActivity.this, ProfileActivity.class);
                         startActivity(intent3);
                         break;
                 }
