@@ -6,7 +6,7 @@
     xmlns:tool="http://schemas.android.com/tools"
     android:background="@color/viewBG"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tool:context=".DetailActivity"
+    tool:context="com.example.movieapp.DetailActivity"
     tool:showIn="@layout/activity_detail">
 
     <ScrollView
