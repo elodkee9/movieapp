@@ -106,27 +106,7 @@ public class MainActivity extends AppCompatActivity {
         loadJSON();
     }
 
-    private void initViewsFavorite(){
-        recyclerView = findViewById(R.id.recycler_view);
 
-        movieList = new ArrayList<>();
-        adapter = new MoviesAdapter(this, movieList);
-
-        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        }
-        else{
-            recyclerView.setLayoutManager(new GridLayoutManager(this,4));
-        }
-
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        favoriteDBHelper = new FavoriteDBHelper(activity);
-
-        getAllFavorite();
-
-    }
 
     private void loadJSON(){
 
@@ -166,21 +146,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void getAllFavorite(){
-        new AsyncTask<Void, Void, Void>(){
 
-            @Override
-            protected Void doInBackground(Void... voids) {
-                movieList.clear();
-                movieList.addAll(favoriteDBHelper.getAllFavorite());
-                return null;
-            }
-            @Override
-            protected void onPostExecute(Void aVoid){
-                super.onPostExecute(aVoid);
-                adapter.notifyDataSetChanged();
-            }
-        }.execute();
-    }
 
 }

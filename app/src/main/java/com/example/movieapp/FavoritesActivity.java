@@ -2,21 +2,43 @@ package com.example.movieapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.example.movieapp.adapter.MoviesAdapter;
+import com.example.movieapp.data.FavoriteDBHelper;
+import com.example.movieapp.model.Movie;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FavoritesActivity extends AppCompatActivity{
+
+    private RecyclerView recyclerView;
+    private MoviesAdapter adapter;
+    private List<Movie> movieList;
+    ProgressDialog pd;
+    private FavoriteDBHelper favoriteDBHelper;
+    private final AppCompatActivity activity = FavoritesActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorites);
 
-
+        initViewsFavorite();
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
@@ -41,5 +63,55 @@ public class FavoritesActivity extends AppCompatActivity{
                 return false;
             }
         });
+    }
+
+    private void initViewsFavorite(){
+        recyclerView = findViewById(R.id.recycler_favorites);
+
+        movieList = new ArrayList<>();
+        adapter = new MoviesAdapter(this, movieList);
+
+        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        }
+        else{
+            recyclerView.setLayoutManager(new GridLayoutManager(this,4));
+        }
+
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        favoriteDBHelper = new FavoriteDBHelper(activity);
+
+        getAllFavorite();
+
+    }
+
+    private void getAllFavorite(){
+        new AsyncTask<Void, Void, Void>(){
+
+            @Override
+            protected Void doInBackground(Void... voids) {
+                movieList.clear();
+                movieList.addAll(favoriteDBHelper.getAllFavorite());
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void aVoid){
+                super.onPostExecute(aVoid);
+                adapter.notifyDataSetChanged();
+            }
+        }.execute();
+    }
+
+    public Activity getActivity(){
+        Context context = this;
+        while(context instanceof ContextWrapper){
+            if(context instanceof Activity){
+                return (Activity) context;
+            }
+            context = ((ContextWrapper)context).getBaseContext();
+        }
+        return null;
     }
 }
