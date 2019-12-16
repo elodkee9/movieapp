@@ -3,7 +3,9 @@ package com.example.movieapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +19,6 @@ public class LoginActivity extends AppCompatActivity {
     Button loginButton;
     TextView register;
     DatabaseHelper db;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,8 @@ public class LoginActivity extends AppCompatActivity {
                 else {
                     if (checkLoginUser == true) {
                         Toast.makeText(getApplicationContext(), "Login successfully!", Toast.LENGTH_SHORT).show();
-                        Intent homeIntent = new Intent(LoginActivity.this, HomeActivity.class);
+                        Intent homeIntent = new Intent(LoginActivity.this, ProfileActivity.class);
+                        homeIntent.putExtra("email",eemail);
                         startActivity(homeIntent);
                     }
                     else{

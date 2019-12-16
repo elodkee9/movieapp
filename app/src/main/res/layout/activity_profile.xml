@@ -8,13 +8,6 @@
     android:background="@drawable/bg"
     tools:context=".ProfileActivity">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_profile"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_navigation"
-        android:layout_below="@+id/btn_register"/>
-
     <Button
         android:id="@+id/btn_show"
         android:layout_width="fill_parent"
@@ -23,6 +16,16 @@
         android:background="@color/colorAccent"
         android:text="Show user details"
         android:textColor="@android:color/black" />
+
+    <Button
+        android:id="@+id/btn_pass"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/colorAccent"
+        android:text="Change password"
+        android:textColor="@android:color/black"
+        android:layout_below="@+id/btn_show"/>
 
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
