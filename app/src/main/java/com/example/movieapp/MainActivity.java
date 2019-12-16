@@ -14,7 +14,9 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.service.voice.VoiceInteractionSession;
 import android.util.Log;
@@ -25,6 +27,7 @@ import android.widget.Toast;
 import com.example.movieapp.adapter.MoviesAdapter;
 import com.example.movieapp.api.Client;
 import com.example.movieapp.api.Service;
+import com.example.movieapp.data.FavoriteDBHelper;
 import com.example.movieapp.model.Movie;
 import com.example.movieapp.model.MovieResponse;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -45,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
     private SwipeRefreshLayout swipeContainer;
     public static final String LOG_TAG = MoviesAdapter.class.getName();
     public static final String API_KEY = "1100d65160fe861cfbfe0db9e1f2f847";
+    private FavoriteDBHelper favoriteDBHelper;
+    private final AppCompatActivity activity = MainActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +106,28 @@ public class MainActivity extends AppCompatActivity {
         loadJSON();
     }
 
+    private void initViewsFavorite(){
+        recyclerView = findViewById(R.id.recycler_view);
+
+        movieList = new ArrayList<>();
+        adapter = new MoviesAdapter(this, movieList);
+
+        if (getActivity().getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
+            recyclerView.setLayoutManager(new GridLayoutManager(this,2));
+        }
+        else{
+            recyclerView.setLayoutManager(new GridLayoutManager(this,4));
+        }
+
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+        favoriteDBHelper = new FavoriteDBHelper(activity);
+
+        getAllFavorite();
+
+    }
+
     private void loadJSON(){
 
         try {
@@ -139,11 +166,21 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
+    private void getAllFavorite(){
+        new AsyncTask<Void, Void, Void>(){
 
+            @Override
+            protected Void doInBackground(Void... voids) {
+                movieList.clear();
+                movieList.addAll(favoriteDBHelper.getAllFavorite());
+                return null;
+            }
+            @Override
+            protected void onPostExecute(Void aVoid){
+                super.onPostExecute(aVoid);
+                adapter.notifyDataSetChanged();
+            }
+        }.execute();
+    }
 
 }
