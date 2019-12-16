@@ -14,6 +14,8 @@ import android.preference.PreferenceManager;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -22,6 +24,7 @@ public class ProfileActivity extends AppCompatActivity {
     DatabaseHelper db;
     Button btnUserDetails;
     Button btnResetPassword;
+    EditText e,pw1,pw2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,8 +34,13 @@ public class ProfileActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
         btnUserDetails = (Button)findViewById(R.id.btn_show);
         btnResetPassword = (Button)findViewById(R.id.btn_pass);
+        e = (EditText)findViewById(R.id.email);
+        pw1 = (EditText)findViewById(R.id.password1);
+        pw2 = (EditText)findViewById(R.id.password2);
 
         viewDetails();
+
+        updatePass();
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
@@ -59,6 +67,23 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    public void updatePass(){
+        btnResetPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isUpdate = db.updatePassword(e.getText().toString(), pw1.getText().toString());
+                if(pw1.equals(pw2)){
+                    if(isUpdate==true){
+                        Toast.makeText(ProfileActivity.this, "Changed password",Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(ProfileActivity.this, "Not changed password",Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+            }
+        });
     }
 
     public void viewDetails(){

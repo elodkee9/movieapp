@@ -81,12 +81,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return res;
     }
 
-    public void updatePassword(String email, String password){
+    public boolean updatePassword(String email, String password){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_4, email);
         contentValues.put(COL_5, password);
 
         db.update(TABLE_NAME, contentValues, COL_4+" = ?", new String[]{email});
-        db.close();
+        return true;
     }
 }
