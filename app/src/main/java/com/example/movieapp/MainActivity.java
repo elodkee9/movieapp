@@ -46,10 +46,6 @@ public class MainActivity extends AppCompatActivity {
     private List<Movie> movieList;
     ProgressDialog pd;
     private SwipeRefreshLayout swipeContainer;
-    public static final String LOG_TAG = MoviesAdapter.class.getName();
-    public static final String API_KEY = "1100d65160fe861cfbfe0db9e1f2f847";
-    private FavoriteDBHelper favoriteDBHelper;
-    private final AppCompatActivity activity = MainActivity.this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
             Client client = new Client();
             Service apiService =
                     client.getClient().create(Service.class);
-            Call<MovieResponse> call = apiService.getPopularMovies(API_KEY);
+            Call<MovieResponse> call = apiService.getPopularMovies(BuildConfig.THE_MOVIE_DB_API_TOKEN);
 
             call.enqueue(new Callback<MovieResponse>() {
                 @Override
